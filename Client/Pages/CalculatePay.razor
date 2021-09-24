@@ -1,0 +1,48 @@
+﻿@page "/calculatepay"
+
+<h1>Calculate Pay</h1>
+
+<p>Enter the hours worked in a week:</p>
+
+<input @bind="HoursWorked " />
+
+<p><br />Enter the pay rate:</p>
+
+<input @bind="PayRate " />
+
+<p><br /></p>
+
+<button class="btn btn-primary" @onclick="ProcessPay">Calculate the pay</button>
+
+<p><br />At a 1.5 times overtime pay rate, the pay is $@TotalPay. </p>
+
+@code
+
+{
+
+    private string HoursWorked { get; set; }
+
+    private string PayRate { get; set; }
+
+    private string TotalPay { get; set; }
+
+    private void ProcessPay()
+
+    {
+
+        double hours = double.Parse(HoursWorked);
+
+        double pay = double.Parse(PayRate);
+
+        double total;
+
+        if (hours > 40)
+            total = (40 * pay) + (hours - 40) * (pay * 1.5);
+        else
+            total = hours * pay;
+
+        TotalPay = total.ToString();
+
+    }
+
+}
