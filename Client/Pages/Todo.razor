@@ -1,0 +1,42 @@
+﻿@page "/todo"
+
+<!-- <p>Prints the header (Todo followed by the number of uncompleted tasks left).</p> -->
+<h1>Todo (@todos.Count(todo => !todo.IsDone))</h1>
+
+<u1>
+    <!-- <p>Loops through the body for each todo object in the todos list.</p> -->
+    @foreach (var todo in todos)
+    {
+        <li>
+            <!-- <p>Creates a clickable checkbox that determines if a task is done by binding it to the IsDone field.</p> -->
+            <input type="checkbox" @bind="todo.IsDone" />
+            <!-- <p>Binds text input to the Title field, naming a task.</p> -->
+            <input @bind="todo.Title" />
+        </li>
+    }
+</u1>
+
+<!-- <p>Leaves placeholder text in an input box until text is entered, then binds it to the string variable newTodo.</p> -->
+<input placeholder="Something todo" @bind="newTodo" />
+<!-- <p>Creates a clickable button that adds a task with its information to the todo list, then allows for another to be created.</p> -->
+<button @onclick="AddTodo">Add todo</button>
+
+@code {
+    @*Declares a private list of TodoItem objects named todos.*@
+    private List<TodoItem> todos = new();
+    @*Declares a private string named AddTodo.*@
+    private string newTodo;
+
+    @*Declares a private void function named AddTodo.*@
+    private void AddTodo()
+    {
+        @*Checks if the string referenced by newTodo is only made up of whitespace or is null.*@
+        if (!string.IsNullOrWhiteSpace(newTodo))
+        {
+            @*Adds a TodoItem object to the todos list and sets its Title field with the newTodo string.*@
+            todos.Add(new TodoItem { Title = newTodo });
+            @*Empties the string referenced by newTodo.*@
+            newTodo = string.Empty;
+        }
+    }
+}
